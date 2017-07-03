@@ -1,10 +1,10 @@
 package com.shx.law.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.util.Date;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by xuan on 2017/7/2.
@@ -139,4 +139,5 @@ public class LawItem {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
