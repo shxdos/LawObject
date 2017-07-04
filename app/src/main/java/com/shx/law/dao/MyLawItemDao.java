@@ -1,6 +1,8 @@
 package com.shx.law.dao;
 
-import com.shx.law.BaseApplication;
+import com.shx.law.base.BaseApplication;
+
+import org.greenrobot.greendao.query.Query;
 
 import java.util.List;
 
@@ -10,6 +12,10 @@ import java.util.List;
 
 public class MyLawItemDao {
     public List<LawItem> selectAll(){
-       return BaseApplication.getInstance().getSession().getLawItemDao().loadAll();
+       return BaseApplication.getContext().getSession().getLawItemDao().loadAll();
+    }
+    public List<LawItem> selectByPage(int offset ,int pageSize){
+        Query builder=BaseApplication.getContext().getSession().getLawItemDao().queryBuilder().offset(offset * pageSize).limit(pageSize).build();
+        return  builder.list();
     }
 }

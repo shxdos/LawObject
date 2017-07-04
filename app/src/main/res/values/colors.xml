@@ -5,5 +5,11 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlue">#3BA0F3</color>
+    <color name="colorBack">#F8F8F8</color>
+    <color name="colorLine">#EBEBEB</color>
+    <color name="colorTextDisable">#DDDDDD</color>
     <color name="colorTextGrayLight">#999999</color>
+    <color name="colorTextGray">#666666</color>
+    <color name="colorTextBlack">#222222</color>
+    <color name="colorTransparent">#00000000</color>
 </resources>
