@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.shx.law.R;
 import com.shx.law.adapter.LoopViewPagerAdapter;
-import com.shx.law.adapter.MyAdapter;
+import com.shx.law.adapter.LawAdapter;
 import com.shx.law.base.EndlessRecyclerOnScrollListener;
 import com.shx.law.base.LayoutValue;
 import com.shx.law.base.OnRecyclerViewItemClickListener;
@@ -41,7 +41,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
     private ViewPagerScheduler vps;
     private RecyclerView mRecyclerView;
     private int res[] = new int[]{R.drawable.banner4};
-    private MyAdapter mAdapter;
+    private LawAdapter mAdapter;
     private List<LawItem> lawList;
     private SwipeRefreshLayout mRefreshLayout;
     private int page = 0;
@@ -98,7 +98,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 1,
                 ContextCompat.getColor(getContext(), R.color.colorTextGray)));
-        mAdapter = new MyAdapter(lawList, getContext());
+        mAdapter = new LawAdapter(lawList, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setmOnItemClickListener(this);
         setHeaderView(mRecyclerView);
