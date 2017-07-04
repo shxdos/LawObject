@@ -15,7 +15,7 @@ import com.shx.law.dao.LawItem;
 import java.util.List;
 
 /** * Created by wnw on 16-5-20. */
-public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
+public class LawAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
     public static final int TYPE_HEADER = 0;  //说明是带有Header的   
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的   
     public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
@@ -28,7 +28,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imp
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnItemClickListener=null;
     //构造函数    
-    public MyAdapter(List<LawItem> list, Context context){
+    public LawAdapter(List<LawItem> list, Context context){
         this.mDatas = list;
         this.mContext=context;
     }    

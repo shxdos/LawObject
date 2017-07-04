@@ -18,13 +18,13 @@ import java.util.List;
  * Created by 周正一 on 2017/1/24.
  */
 
-public class LawsAdapter extends RecyclerView.Adapter<LawsAdapter.LawsHolder> implements View.OnClickListener{
+public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.LawsHolder> implements View.OnClickListener{
 
     private List<LawItem> mDatas;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnItemClickListener=null;
 
-    public LawsAdapter(List<LawItem> mDatas, Context mContext) {
+    public CommonAdapter(List<LawItem> mDatas, Context mContext) {
         this.mDatas = mDatas;
         this.mContext = mContext;
     }
@@ -36,7 +36,7 @@ public class LawsAdapter extends RecyclerView.Adapter<LawsAdapter.LawsHolder> im
     }
 
     @Override
-    public void onBindViewHolder(LawsAdapter.LawsHolder holder, int position) {
+    public void onBindViewHolder(CommonAdapter.LawsHolder holder, int position) {
         if(mDatas==null||mDatas.size()==0){
             return;
         }
