@@ -43,7 +43,7 @@
             android:text="订单"
             android:textColor="@drawable/selector_color_menu" />
         <TextView
-            android:id="@+id/rb_my"
+            android:id="@+id/rb_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

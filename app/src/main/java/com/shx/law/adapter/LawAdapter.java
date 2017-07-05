@@ -91,9 +91,10 @@ public class LawAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             if(holder instanceof ListHolder) {                
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了                
 //                ((ListHolder) holder).tv.setText(mDatas.get(position-1));
-                LawItem lawItem = mDatas.get(position-1);
+                LawItem lawItem = mDatas.get(position);
                 ((ListHolder) holder).name.setText(lawItem.getLaw_name());
-                ((ListHolder) holder).desc.setText(lawItem.getDescription());
+//                ((ListHolder) holder).desc.setText(lawItem.getDescription());
+                ((ListHolder) holder).desc.setText("(1979年7月1日第五届全国人民代表大会第二次会议通过，1997年3月14日第八届全国人民代表大会第五次会议修订");
                 ((ListHolder) holder).layoutItem.setTag(lawItem);
                 ((ListHolder) holder).layoutItem.setOnClickListener(this);
                 return;            

@@ -32,4 +32,8 @@
         <item name="android:windowFullscreen">false</item>
         <!-- 设置全屏 -->
     </style>
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/colorBlue</item>
+        <item name="tabSelectedTextColor">@color/colorBlue</item>
+    </style>
 </resources>

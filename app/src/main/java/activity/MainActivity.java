@@ -12,11 +12,12 @@ import com.shx.law.R;
 import com.shx.law.base.BaseActivity;
 import com.shx.law.common.LogGloble;
 import com.shx.law.fragment.MainFragment;
+import com.shx.law.fragment.SearchFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
-    private TextView mMain , mOrders, mShoppingCart, mAccountCenter;
+    private TextView mMain , mOrders, mSearch;
     private FrameLayout mContent;
-    private Fragment mMainFragment, mOrderFragment, mPersonCenterFragment;
+    private Fragment mMainFragment, mOrderFragment, mSearchFragment;
     /**
      * 用于对Fragment进行管理
      */
@@ -31,11 +32,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
     private void initView() {
         mMainFragment = new MainFragment();
+        mSearchFragment=new SearchFragment();
         mMain = (TextView) findViewById(R.id.rb_main);
-        mOrders = (TextView) findViewById(R.id.rb_order);
-        mAccountCenter = (TextView) findViewById(R.id.rb_my);
+        mSearch = (TextView) findViewById(R.id.rb_search);
         mContent = (FrameLayout) findViewById(R.id.content);
         mMain.setOnClickListener(this);
+        mSearch.setOnClickListener(this);
 //        setSelected();
 
     }
@@ -72,6 +74,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 mMain.setSelected(true);
                 setTabSelection(0);
                 break;
+            case R.id.rb_search:
+                mSearch.setSelected(true);
+                setTabSelection(2);
+                break;
         }
     }
     /**
@@ -91,7 +97,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 //                transaction.replace(R.id.content, mOrderFragment);
                 break;
             case 2:
-//                transaction.replace(R.id.content, mPersonCenterFragment);
+                transaction.replace(R.id.content, mSearchFragment);
                 break;
             default:
                 transaction.replace(R.id.content, mMainFragment);
@@ -99,4 +105,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
         transaction.commitAllowingStateLoss();
     }
+
 }
