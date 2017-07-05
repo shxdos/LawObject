@@ -1,5 +1,6 @@
 package activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
@@ -8,6 +9,7 @@ import android.webkit.WebViewClient;
 
 import com.shx.law.R;
 import com.shx.law.base.BaseActivity;
+import com.shx.law.libs.dialog.DialogManager;
 
 
 public class WebActivity extends BaseActivity {
@@ -25,24 +27,37 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        webView.loadUrl(url);
     }
 
     private void init(){
-        webView.loadUrl("http://www.gov.cn/flfg/2009-06/27/content_1351870.htm");
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDisplayZoomControls(false); //隐藏webview缩放按钮
-        webView.setInitialScale(90);
+        webView.setInitialScale(100);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
+        settings.setSupportZoom(true);  //支持缩放
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
+        settings.setBuiltInZoomControls(true); //设置支持缩放
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // TODO Auto-generated method stub
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                DialogManager.getInstance().showProgressDialog(WebActivity.this);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                DialogManager.getInstance().dissMissProgressDialog();
             }
         });
     }
@@ -59,9 +74,14 @@ public class WebActivity extends BaseActivity {
             }
             else
             {
-                System.exit(0);//退出程序
+                onBackPressed();
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

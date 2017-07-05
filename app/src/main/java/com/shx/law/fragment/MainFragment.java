@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.shx.law.PdfViewActivity;
+import activity.PdfViewActivity;
 import com.shx.law.R;
 import com.shx.law.adapter.LawAdapter;
 import com.shx.law.adapter.LoopViewPagerAdapter;

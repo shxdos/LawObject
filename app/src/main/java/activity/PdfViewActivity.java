@@ -1,4 +1,4 @@
-package com.shx.law;
+package activity;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.util.Log;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.shx.law.R;
 import com.shx.law.base.BaseActivity;
 import com.shx.law.libs.dialog.DialogManager;
 import com.shx.law.view.PDFView;
