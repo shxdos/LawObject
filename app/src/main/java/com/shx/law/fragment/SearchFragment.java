@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 2,
-                ContextCompat.getColor(getContext(), R.color.colorTextGray)));
+                ContextCompat.getColor(getContext(), R.color.colorTextBlack)));
         mAdapter = new LawAdapter(lawList, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setmOnItemClickListener(this);

@@ -27,6 +27,7 @@ import com.shx.law.common.LogGloble;
 import com.shx.law.dao.LawItem;
 import com.shx.law.dao.MyLawItemDao;
 import com.shx.law.libs.dialog.ToastUtil;
+import com.shx.law.utils.DeviceUtils;
 import com.shx.law.view.RecycleViewDivider;
 import com.shx.law.view.ViewPageWithIndicator;
 
@@ -102,7 +103,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 2,
+        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, DeviceUtils.dp2Px(getContext(),1),
                 ContextCompat.getColor(getContext(), R.color.colorTextBlack)));
         mAdapter = new LawAdapter(lawList, getContext());
         mRecyclerView.setAdapter(mAdapter);
