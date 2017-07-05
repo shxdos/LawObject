@@ -1,5 +1,6 @@
 package com.shx.law.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.shx.law.PdfViewActivity;
 import com.shx.law.R;
-import com.shx.law.adapter.LoopViewPagerAdapter;
 import com.shx.law.adapter.LawAdapter;
+import com.shx.law.adapter.LoopViewPagerAdapter;
 import com.shx.law.base.EndlessRecyclerOnScrollListener;
 import com.shx.law.base.LayoutValue;
 import com.shx.law.base.OnRecyclerViewItemClickListener;
@@ -28,6 +30,8 @@ import com.shx.law.view.RecycleViewDivider;
 import com.shx.law.view.ViewPageWithIndicator;
 
 import java.util.List;
+
+import activity.WebActivity;
 
 /**
  * 首页的Fragment
@@ -183,7 +187,17 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
     @Override
     public void onItemClick(View view, Object data) {
         LawItem item = (LawItem) data;
-        LogGloble.d("MainFragment", item.getLaw_name() + "");
+        LogGloble.d("MainFragment", item.getFile_path() + "");
+        if(item.getFile_path().endsWith(".pdf")){
+            Intent intent=new Intent(getContext(), PdfViewActivity.class);
+            intent.putExtra("URL",item.getFile_path());
+            startActivity(intent);
+        }else{
+            Intent intent=new Intent(getContext(), WebActivity.class);
+            intent.putExtra("URL",item.getFile_path());
+            startActivity(intent);
+        }
+
     }
 
     @Override
