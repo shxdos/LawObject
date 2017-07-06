@@ -37,6 +37,9 @@ public class HttpManager {
         return mHttpManager;
     }
     public void doDownloadFile(String url, String fileName, FileCallBack fileCallBack){
-        OkHttpUtils.get().url(url).build().execute(fileCallBack);
+        OkHttpUtils.get().tag("download").url(url).build().execute(fileCallBack);
+    }
+    public void doCancleDownloadFile(){
+        OkHttpUtils.getInstance().cancelTag("download");
     }
 }

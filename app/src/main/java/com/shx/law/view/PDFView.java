@@ -20,6 +20,7 @@ public class PDFView extends com.github.barteksc.pdfviewer.PDFView {
     private Context mContext;
     public interface FileLoadingListener {
         void onFileLoaded(File file);
+        void onFileLoadFail();
     }
 
     /**
@@ -49,6 +50,7 @@ public class PDFView extends com.github.barteksc.pdfviewer.PDFView {
                         file.delete();
                     }
                     Toast.makeText(mContext,"文件加载失败！", Toast.LENGTH_SHORT).show();
+                    listener.onFileLoadFail();
                 }
 
                 @Override
@@ -57,5 +59,8 @@ public class PDFView extends com.github.barteksc.pdfviewer.PDFView {
                 }
             });
         }
+    }
+    public void cancleDownload(){
+        HttpManager.getInstance().doCancleDownloadFile();
     }
 }

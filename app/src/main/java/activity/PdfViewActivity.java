@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
+import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.shx.law.R;
 import com.shx.law.base.BaseActivity;
+import com.shx.law.common.LogGloble;
 import com.shx.law.libs.dialog.DialogManager;
 import com.shx.law.view.PDFView;
 
@@ -17,9 +19,10 @@ import java.io.File;
 import static com.shx.law.R.id.pdfView;
 
 public class PdfViewActivity extends BaseActivity implements OnPageChangeListener
-        ,OnLoadCompleteListener, OnDrawListener {
+        ,OnLoadCompleteListener, OnDrawListener ,OnErrorListener{
     private PDFView mView;
     private String mUrl;
+    private boolean isLoaded=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +40,12 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
         mView.fromUrl(mUrl,fileName, new PDFView.FileLoadingListener() {
             @Override
             public void onFileLoaded(File file) {
+                isLoaded=true;
                 Log.d("PDFView","PDF File 加载完成======");
                 mView.fromFile(file)
                         .enableSwipe(true) // allows to block changing pages using swipe
                         .defaultPage(0)
+                        .onError(PdfViewActivity.this)
                         // allows to draw something on the current page, usually visible in the middle of the screen
                         .onDraw(PdfViewActivity.this)
                         // allows to draw something on all pages, separately for every page. Called only for visible pages
@@ -50,9 +55,23 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
                         .enableAntialiasing(true)
                         .load();
             }
+
+            @Override
+            public void onFileLoadFail() {
+                isLoaded=false;
+                DialogManager.getInstance().dissMissProgressDialog();
+            }
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if(isLoaded){
+//            mView.stop
+        }
+        super.onBackPressed();
+
+    }
 
     @Override
     public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
@@ -66,5 +85,10 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
     @Override
     public void onPageChanged(int page, int pageCount) {
 
+    }
+
+    @Override
+    public void onError(Throwable t) {
+        LogGloble.d("onError","onError");
     }
 }

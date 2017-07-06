@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
+    <include layout="@layout/layout_topbar"></include>
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
