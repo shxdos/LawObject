@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import com.shx.law.R;
 import com.shx.law.base.BaseActivity;
 import com.shx.law.common.LogGloble;
@@ -15,7 +14,6 @@ import com.shx.law.fragment.MainFragment;
 import com.shx.law.fragment.SearchFragment;
 import com.shx.law.fragment.SelectFragment;
 import com.shx.law.message.EventMessage;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -118,7 +116,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void setTabSelection(int index) {
         // 开启一个Fragment事务
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-//        mMenu.check(index);
         switch (index) {
             case 0:
                 transaction.replace(R.id.content, mMainFragment);
