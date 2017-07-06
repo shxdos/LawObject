@@ -30,8 +30,8 @@ import com.shx.law.view.ViewPageWithIndicator;
 
 import java.util.List;
 
-import activity.PdfViewActivity;
-import activity.WebActivity;
+import com.shx.law.activity.PdfViewActivity;
+import com.shx.law.activity.WebActivity;
 
 /**
  * 首页的Fragment

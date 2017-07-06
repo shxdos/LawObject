@@ -15,15 +15,15 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Base">
-        <activity android:name="activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="activity.PdfViewActivity"></activity>
-        <activity android:name="activity.WebActivity">
+        <activity android:name=".activity.PdfViewActivity"></activity>
+        <activity android:name=".activity.WebActivity">
         </activity>
     </application>
 </manifest>

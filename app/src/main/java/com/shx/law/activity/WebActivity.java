@@ -1,4 +1,4 @@
-package activity;
+package com.shx.law.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

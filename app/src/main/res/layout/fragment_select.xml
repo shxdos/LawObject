@@ -6,5 +6,70 @@
     <com.shx.law.view.ViewPageWithIndicator
         android:id="@+id/vp_viewpage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.shx.law.view.ViewPageWithIndicator>
+        android:layout_height="160dp"></com.shx.law.view.ViewPageWithIndicator>
+    <TableLayout
+        android:id="@+id/tl_table"
+        android:layout_width="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/shape_divder"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/tv_container"
+                style="@style/style_mainmenu"
+                android:drawableTop="@drawable/ic_container"
+                android:text="集装箱" />
+
+            <TextView
+                android:id="@+id/tv_road"
+                style="@style/style_mainmenu"
+                android:drawableTop="@drawable/ic_container"
+                android:text="一带一路" />
+            <TextView
+                android:id="@+id/tv_bulk_stack"
+                style="@style/style_mainmenu"
+                android:drawableTop="@drawable/ic_container"
+                android:text="散堆装" />
+
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/shape_divder"></View>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/shape_divder"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+
+            <TextView
+                android:id="@+id/tv_liquid"
+                style="@style/style_mainmenu"
+                android:drawableTop="@drawable/ic_container"
+                android:text="液态" />
+
+            <TextView
+                android:id="@+id/tv_chemical"
+                style="@style/style_mainmenu"
+                android:drawableTop="@drawable/ic_container"
+                android:text="三农化肥" />
+
+
+            <TextView
+                android:id="@+id/tv_large_size"
+                style="@style/style_mainmenu"
+                android:drawableTop="@drawable/ic_container"
+                android:text="大件" />
+        </TableRow>
+
+    </TableLayout>
 </LinearLayout>

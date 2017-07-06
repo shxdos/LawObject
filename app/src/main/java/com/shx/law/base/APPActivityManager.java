@@ -2,7 +2,7 @@ package com.shx.law.base;
 
 import android.app.Activity;
 
-import activity.MainActivity;
+import com.shx.law.activity.MainActivity;
 
 import java.util.ArrayList;
 

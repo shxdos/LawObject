@@ -1,7 +1,8 @@
-package activity;
+package com.shx.law.activity;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
@@ -19,10 +20,11 @@ import java.io.File;
 import static com.shx.law.R.id.pdfView;
 
 public class PdfViewActivity extends BaseActivity implements OnPageChangeListener
-        ,OnLoadCompleteListener, OnDrawListener ,OnErrorListener{
+        , OnLoadCompleteListener, OnDrawListener, OnErrorListener {
     private PDFView mView;
     private String mUrl;
-    private boolean isLoaded=false;
+    private boolean isLoaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +35,15 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
         mView.setMidZoom(1.5f);
         mView.setMaxZoom(2f);
 
-        mUrl=getIntent().getStringExtra("URL");
-        int index=mUrl.lastIndexOf("/");
-        String fileName=mUrl.substring(index);
+        mUrl = getIntent().getStringExtra("URL");
+        int index = mUrl.lastIndexOf("/");
+        String fileName = mUrl.substring(index);
         DialogManager.getInstance().showProgressDialogNotCancelbale(this);
-        mView.fromUrl(mUrl,fileName, new PDFView.FileLoadingListener() {
+        mView.fromUrl(mUrl, fileName, new PDFView.FileLoadingListener() {
             @Override
             public void onFileLoaded(File file) {
-                isLoaded=true;
-                Log.d("PDFView","PDF File 加载完成======");
+                isLoaded = true;
+                Log.d("PDFView", "PDF File 加载完成======");
                 mView.fromFile(file)
                         .enableSwipe(true) // allows to block changing pages using swipe
                         .defaultPage(0)
@@ -58,7 +60,7 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
 
             @Override
             public void onFileLoadFail() {
-                isLoaded=false;
+                isLoaded = false;
                 DialogManager.getInstance().dissMissProgressDialog();
             }
         });
@@ -66,11 +68,19 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
 
     @Override
     public void onBackPressed() {
-        if(isLoaded){
-//            mView.stop
+        if (!isLoaded) {
+            //文件没下载完成并退出该页面
+            mView.cancleDownload();
+            int index = mUrl.lastIndexOf("/");
+            String fileName = mUrl.substring(index);
+            final String SDPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pdf/";
+            final File file = new File(SDPath, fileName);
+            if (file.exists()) {
+                //文件存在
+                file.delete();
+            }
         }
         super.onBackPressed();
-
     }
 
     @Override
@@ -89,6 +99,6 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
 
     @Override
     public void onError(Throwable t) {
-        LogGloble.d("onError","onError");
+        LogGloble.d("onError", "onError");
     }
 }

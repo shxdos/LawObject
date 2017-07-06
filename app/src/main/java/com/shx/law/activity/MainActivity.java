@@ -1,4 +1,4 @@
-package activity;
+package com.shx.law.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +14,10 @@ import com.shx.law.common.LogGloble;
 import com.shx.law.fragment.MainFragment;
 import com.shx.law.fragment.SearchFragment;
 import com.shx.law.fragment.SelectFragment;
+import com.shx.law.message.EventMessage;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
     private TextView mMain , mSelect, mSearch;
@@ -31,6 +35,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         initView();
         LogGloble.d("MainActivity","onCreate===========");
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
     private void initView() {
         mMainFragment = new MainFragment();
         mSearchFragment=new SearchFragment();
@@ -42,14 +52,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mMain.setOnClickListener(this);
         mSearch.setOnClickListener(this);
         mSelect.setOnClickListener(this);
-        setSelected();
+        mMain.performClick();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LogGloble.d("MainActivity","onResume===========");
-        mMain.performClick();
     }
 
     @Override
@@ -68,8 +76,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     protected void onStop() {
         super.onStop();
         LogGloble.d("MainActivity","onStop===========");
+        EventBus.getDefault().unregister(this);
     }
-
+    @Subscribe()
+    public void onMessageEvent(EventMessage message) {
+        if(message.getFrom().equals("SelectFragment")){
+            mSearch.performClick();
+            message.setFrom("MainActivity");
+            EventBus.getDefault().post(message);
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -108,15 +124,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         switch (index) {
             case 0:
                 transaction.replace(R.id.content, mMainFragment);
+                getTopbar().setTitle("首页");
                 break;
             case 1:
                 transaction.replace(R.id.content, mSelectFragment);
+                getTopbar().setTitle("查询系统");
                 break;
             case 2:
                 transaction.replace(R.id.content, mSearchFragment);
+                getTopbar().setTitle("法规搜索");
                 break;
             default:
                 transaction.replace(R.id.content, mMainFragment);
+                getTopbar().setTitle("首页");
                 break;
         }
         transaction.commit();

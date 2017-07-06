@@ -39,7 +39,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/textsize_22" />
+            android:textSize="@dimen/textsize_16" />
 
 
         <ImageView
@@ -58,7 +58,7 @@
             android:layout_toLeftOf="@+id/iv_actionBarRight"
             android:gravity="center_vertical"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/textsize_18"
+            android:textSize="@dimen/textsize_16"
             android:visibility="visible"
             android:paddingRight="10dp"
             />

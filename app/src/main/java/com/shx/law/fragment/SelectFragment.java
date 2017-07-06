@@ -13,14 +13,17 @@ import com.shx.law.R;
 import com.shx.law.adapter.LoopViewPagerAdapter;
 import com.shx.law.base.LayoutValue;
 import com.shx.law.base.ViewPagerScheduler;
+import com.shx.law.message.EventMessage;
 import com.shx.law.view.ViewPageWithIndicator;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 首页的Fragment
  * Created by 邵鸿轩 on 2016/12/1.
  */
 
-public class SelectFragment extends Fragment implements View.OnClickListener{
+public class SelectFragment extends Fragment implements View.OnClickListener {
     private ViewPageWithIndicator mLoopView;
     private ImageView[] imageViews;
     private LoopViewPagerAdapter loopViewPagerAdapter;
@@ -36,7 +39,6 @@ public class SelectFragment extends Fragment implements View.OnClickListener{
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -46,8 +48,15 @@ public class SelectFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
     private void initView(View view) {
         setHeaderView(view);
+        view.findViewById(R.id.tv_container).setOnClickListener(this);
     }
 
     private void setHeaderView(View view) {
@@ -94,9 +103,13 @@ public class SelectFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_container:
+                EventMessage message = new EventMessage();
+                message.setFrom("SelectFragment");
+                EventBus.getDefault().postSticky(message);
+                break;
         }
     }
-
 
 
     @Override

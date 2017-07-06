@@ -16,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.shx.law.R;
+import com.shx.law.activity.PdfViewActivity;
+import com.shx.law.activity.WebActivity;
 import com.shx.law.adapter.LawAdapter;
 import com.shx.law.base.EndlessRecyclerOnScrollListener;
 import com.shx.law.base.OnRecyclerViewItemClickListener;
@@ -23,12 +25,13 @@ import com.shx.law.common.LogGloble;
 import com.shx.law.dao.LawItem;
 import com.shx.law.dao.MyLawItemDao;
 import com.shx.law.libs.dialog.ToastUtil;
+import com.shx.law.message.EventMessage;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 import java.util.Map;
-
-import activity.PdfViewActivity;
-import activity.WebActivity;
 
 import static com.shx.law.R.id.tabLayout;
 
@@ -60,6 +63,24 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
             mTabLayout.addTab(mTabLayout.newTab().setText(tab.get("typeName")));
         }
         return view;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+    @Subscribe()
+    public void onMessageEvent(EventMessage message) {
+        LogGloble.d("SearchFragment",message.getFrom()+"");
+        if (message.getFrom().equals("MainActivity")) {
+            ToastUtil.getInstance().toastInCenter(getContext(),"选择了集装箱");
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     private List<Map<String, String>> loadTabs() {
@@ -172,7 +193,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
     public void onTabSelected(TabLayout.Tab tab) {
         LogGloble.d("Tab","onTabSlected===");
         if(tab.getText().equals("全部")){
-            ToastUtil.getInstance().toastInCenter(getContext(),"全部");
         }
     }
 
