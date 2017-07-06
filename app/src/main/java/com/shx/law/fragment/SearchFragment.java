@@ -40,7 +40,7 @@ import static com.shx.law.R.id.tabLayout;
  * Created by 邵鸿轩 on 2016/12/1.
  */
 
-public class SearchFragment extends Fragment implements View.OnClickListener, OnRecyclerViewItemClickListener ,TabLayout.OnTabSelectedListener{
+public class SearchFragment extends Fragment implements View.OnClickListener, OnRecyclerViewItemClickListener, TabLayout.OnTabSelectedListener {
     private RecyclerView mRecyclerView;
     private TabLayout mTabLayout;
     private LawAdapter mAdapter;
@@ -49,7 +49,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
     private int page = 0;
     private final int pageSize = 10;
     private boolean isLastPage = false;
-    private Spinner mType,mProfession,mLevel;
+    private Spinner mType, mProfession, mLevel;
 
     @Nullable
     @Override
@@ -64,17 +64,17 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         }
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
     }
-    @Subscribe()
+
+    @Subscribe(sticky = true)
     public void onMessageEvent(EventMessage message) {
-        LogGloble.d("SearchFragment",message.getFrom()+"");
-        if (message.getFrom().equals("MainActivity")) {
-            ToastUtil.getInstance().toastInCenter(getContext(),"选择了集装箱");
-        }
+        LogGloble.d("SearchFragment", message.getFrom() + "");
+        ToastUtil.getInstance().toastInCenter(getContext(), "选择了集装箱");
     }
 
     @Override
@@ -189,20 +189,21 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         }
 
     }
+
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        LogGloble.d("Tab","onTabSlected===");
-        if(tab.getText().equals("全部")){
+        LogGloble.d("Tab", "onTabSlected===");
+        if (tab.getText().equals("全部")) {
         }
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-        LogGloble.d("Tab","onTabUnselected===");
+        LogGloble.d("Tab", "onTabUnselected===");
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-        LogGloble.d("Tab","onTabReselected===");
+        LogGloble.d("Tab", "onTabReselected===");
     }
 }

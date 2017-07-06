@@ -82,8 +82,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onMessageEvent(EventMessage message) {
         if(message.getFrom().equals("SelectFragment")){
             mSearch.performClick();
-            message.setFrom("MainActivity");
-            EventBus.getDefault().post(message);
         }
     }
     @Override
