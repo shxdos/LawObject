@@ -4,29 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<ScrollView-->
-        <!--android:id="@+id/scrollView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/layout_refresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical">-->
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_laws"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:layout_weight="1"></android.support.v7.widget.RecyclerView>
-                <!--</LinearLayout>-->
-            </android.support.v4.widget.SwipeRefreshLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--</ScrollView>-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_laws"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

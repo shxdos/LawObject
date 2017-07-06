@@ -13,11 +13,12 @@ import com.shx.law.base.BaseActivity;
 import com.shx.law.common.LogGloble;
 import com.shx.law.fragment.MainFragment;
 import com.shx.law.fragment.SearchFragment;
+import com.shx.law.fragment.SelectFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
-    private TextView mMain , mOrders, mSearch;
+    private TextView mMain , mSelect, mSearch;
     private FrameLayout mContent;
-    private Fragment mMainFragment, mOrderFragment, mSearchFragment;
+    private Fragment mMainFragment, mSelectFragment, mSearchFragment;
     /**
      * 用于对Fragment进行管理
      */
@@ -33,13 +34,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void initView() {
         mMainFragment = new MainFragment();
         mSearchFragment=new SearchFragment();
+        mSelectFragment=new SelectFragment();
         mMain = (TextView) findViewById(R.id.rb_main);
         mSearch = (TextView) findViewById(R.id.rb_search);
+        mSelect= (TextView) findViewById(R.id.rb_select);
         mContent = (FrameLayout) findViewById(R.id.content);
         mMain.setOnClickListener(this);
         mSearch.setOnClickListener(this);
-//        setSelected();
-
+        mSelect.setOnClickListener(this);
+        setSelected();
     }
 
     @Override
@@ -71,14 +74,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rb_main:
+                setSelected();
                 mMain.setSelected(true);
                 setTabSelection(0);
                 break;
+            case R.id.rb_select:
+                setSelected();
+                mSelect.setSelected(true);
+                setTabSelection(1);
+                break;
             case R.id.rb_search:
+                setSelected();
                 mSearch.setSelected(true);
                 setTabSelection(2);
                 break;
         }
+    }
+    //重置所有文本的选中状态
+    private void setSelected() {
+        mMain.setSelected(false);
+        mSearch.setSelected(false);
+        mSelect.setSelected(false);
     }
     /**
      * 根据传入的index参数来设置选中的tab页。
@@ -94,7 +110,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 transaction.replace(R.id.content, mMainFragment);
                 break;
             case 1:
-//                transaction.replace(R.id.content, mOrderFragment);
+                transaction.replace(R.id.content, mSelectFragment);
                 break;
             case 2:
                 transaction.replace(R.id.content, mSearchFragment);
@@ -103,7 +119,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 transaction.replace(R.id.content, mMainFragment);
                 break;
         }
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
     }
 
 }

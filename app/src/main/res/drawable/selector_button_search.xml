@@ -3,8 +3,8 @@
 
     <item
         android:state_selected="true"
-        android:drawable="@drawable/ic_menu_home_checked"></item>
+        android:drawable="@drawable/ic_menu_search_checked"></item>
     <item
         android:state_selected="false"
-        android:drawable="@drawable/ic_menu_home"></item>
+        android:drawable="@drawable/ic_menu_search"></item>
 </selector>

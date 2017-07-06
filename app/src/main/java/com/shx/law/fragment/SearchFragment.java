@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,6 @@ import com.shx.law.common.LogGloble;
 import com.shx.law.dao.LawItem;
 import com.shx.law.dao.MyLawItemDao;
 import com.shx.law.libs.dialog.ToastUtil;
-import com.shx.law.view.RecycleViewDivider;
 
 import java.util.List;
 import java.util.Map;
@@ -104,8 +102,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, 2,
-                ContextCompat.getColor(getContext(), R.color.colorTextBlack)));
+//        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, DeviceUtils.dp2Px(getContext(),2),
+//                ContextCompat.getColor(getContext(), R.color.colorTextBlack)));
         mAdapter = new LawAdapter(lawList, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setmOnItemClickListener(this);
