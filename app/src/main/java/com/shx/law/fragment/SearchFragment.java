@@ -8,30 +8,38 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shx.law.R;
 import com.shx.law.activity.PdfViewActivity;
 import com.shx.law.activity.WebActivity;
-import com.shx.law.adapter.LawAdapter;
-import com.shx.law.base.EndlessRecyclerOnScrollListener;
-import com.shx.law.base.OnRecyclerViewItemClickListener;
+import com.shx.law.adapter.LawBaseAdapter;
+import com.shx.law.adapter.SpinnerAdapter;
 import com.shx.law.common.LogGloble;
 import com.shx.law.dao.LawItem;
+import com.shx.law.dao.LawRequest;
 import com.shx.law.dao.MyLawItemDao;
+import com.shx.law.libs.dialog.DialogManager;
 import com.shx.law.libs.dialog.ToastUtil;
 import com.shx.law.message.EventMessage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.shx.law.R.id.tabLayout;
 
@@ -40,27 +48,34 @@ import static com.shx.law.R.id.tabLayout;
  * Created by 邵鸿轩 on 2016/12/1.
  */
 
-public class SearchFragment extends Fragment implements View.OnClickListener, OnRecyclerViewItemClickListener, TabLayout.OnTabSelectedListener {
+public class SearchFragment extends Fragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener, TabLayout.OnTabSelectedListener {
     private RecyclerView mRecyclerView;
     private TabLayout mTabLayout;
-    private LawAdapter mAdapter;
-    private List<LawItem> lawList;
+    private LawBaseAdapter mAdapter;
+    private List<LawItem> lawList = new ArrayList<>();
     private SwipeRefreshLayout mRefreshLayout;
-    private int page = 0;
+    private int mPage = 0;
     private final int pageSize = 10;
     private boolean isLastPage = false;
-    private Spinner mType, mProfession, mLevel;
+    private EventMessage mEventMessage;
+    private ImageView mSearche;
+    private EditText mKeyword;
+    public LawRequest mRequest;
+    private String[] mTabTitle = new String[]{"全部", "安全标准", "部门规章", "地方法规", "国家标准", "国家法律", "行业标准", "行政法规"};
+    private ListView mKeywordTypeSpinner;
+    private LinearLayout mKeywordType;
+    private TextView mKeywordTypeTV;
+    private LinearLayout mlayoutEmpty;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, null);
-        lawList = loadData(page, pageSize);
+        mRequest = new LawRequest();
+        setDefaultRequest();
         initView(view);
-        List<Map<String, String>> tabList = loadTabs();
-        mTabLayout.addTab(mTabLayout.newTab().setText("全部"));
-        for (Map<String, String> tab : tabList) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(tab.get("typeName")));
+        for (String tab : mTabTitle) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(tab));
         }
         return view;
     }
@@ -71,10 +86,31 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         EventBus.getDefault().register(this);
     }
 
+    private void setDefaultRequest() {
+        mRequest.setTypeCode("");
+//        if(SystemConfig.appName.equals("三司")){
+            mRequest.setTypeName("三司");
+//        }else{
+//            mRequest.setTypeName("");
+//        }
+        mRequest.setKeyword("");
+        mRequest.setKeywordType("标题");
+        mRequest.setLevel("");
+        mRequest.setRequestType("");
+    }
+
     @Subscribe(sticky = true)
     public void onMessageEvent(EventMessage message) {
-        LogGloble.d("SearchFragment", message.getFrom() + "");
-        ToastUtil.getInstance().toastInCenter(getContext(), "选择了集装箱");
+        if (message.getFrom().equals("SelectFragment")) {
+            mRequest.setTypeCode(message.getSelectMenu());
+            mRequest.setTypeName("三司");
+            lawList = loadData();
+            if (mAdapter != null) {
+                mAdapter.addData(lawList);
+                mAdapter.notifyDataSetChanged();
+            }
+            return;
+        }
     }
 
     @Override
@@ -83,31 +119,29 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         EventBus.getDefault().unregister(this);
     }
 
-    private List<Map<String, String>> loadTabs() {
-        MyLawItemDao dao = new MyLawItemDao();
-        return dao.selectByType();
-    }
 
-    private List<LawItem> loadData(int page, int size) {
+    private List<LawItem> loadData() {
         MyLawItemDao dao = new MyLawItemDao();
-        return dao.selectByPage(page, size);
+        return dao.selctLawItemsByParam(mRequest, mPage, pageSize);
     }
 
     private void loadMoreData() {
         if (isLastPage) {
             return;
         }
-        List<LawItem> list = loadData(++page, pageSize);
-        if (list.size() < pageSize) {
-            Toast.makeText(getContext(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
-            isLastPage = true;
-            setFooterView(mRecyclerView);
-            return;
-        }
-        LogGloble.d("loadMoreData", page + "");
+        mPage++;
+        List<LawItem> list = loadData();
+        LogGloble.d("loadMoreData", mPage + "");
         if (list.size() > 0) {
-            lawList.addAll(list);
+            mAdapter.loadMoreComplete();
         }
+        if (list.size() < pageSize) {
+            isLastPage = true;
+            setFooterView();
+            mAdapter.loadMoreEnd();
+        }
+        mAdapter.addData(list);
+
     }
 
     @Override
@@ -118,45 +152,77 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
     private void initView(View view) {
         mTabLayout = (TabLayout) view.findViewById(tabLayout);
         mTabLayout.setOnTabSelectedListener(this);
+
+        mSearche = (ImageView) view.findViewById(R.id.iv_search);
+        mSearche.setOnClickListener(this);
+
+        mKeyword = (EditText) view.findViewById(R.id.et_keyworld);
+        mKeyword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mRequest.setKeyword(s.toString());
+                if (TextUtils.isEmpty(s.toString())) {
+                    mAdapter.setLight(false,mRequest);
+                    lawList=loadData();
+                    mAdapter.setNewData(lawList);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mKeywordType = (LinearLayout) view.findViewById(R.id.layout_keyworldtype);
+        mKeywordType.setOnClickListener(this);
+
+        mKeywordTypeTV = (TextView) view.findViewById(R.id.tv_keywordtype);
+
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_refresh);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_laws);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
-//        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL, DeviceUtils.dp2Px(getContext(),2),
-//                ContextCompat.getColor(getContext(), R.color.colorTextBlack)));
-        mAdapter = new LawAdapter(lawList, getContext());
+        mAdapter = new LawBaseAdapter(lawList);
+        mAdapter.bindToRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setmOnItemClickListener(this);
-        mAdapter.setFooterView(null);
+        mAdapter.setEmptyView(R.layout.layout_empty_view);
+        mAdapter.disableLoadMoreIfNotFullPage();
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                loadMoreData();
+                mAdapter.notifyDataSetChanged();
+            }
+        }, mRecyclerView);
+        mAdapter.setOnItemClickListener(this);
+        TextView textView = new TextView(getContext());
+        textView.setText("我是空格");
+        mRefreshLayout.addView(textView);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             public void onRefresh() {
                 isLastPage = false;
-                page = 0;
-                loadData(page, pageSize);
-                mAdapter.setmDatas(lawList);
+                mPage = 0;
+                lawList = loadData();
                 //数据重新加载完成后，提示数据发生改变，并且设置现在不在刷新
-                mAdapter.notifyDataSetChanged();
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                loadMoreData();
-                mAdapter.setmDatas(lawList);
-                //数据重新加载完成后，提示数据发生改变，并且设置现在不在刷新
+                mAdapter.setNewData(lawList);
                 mAdapter.notifyDataSetChanged();
                 mRefreshLayout.setRefreshing(false);
             }
         });
     }
 
-    private void setFooterView(RecyclerView view) {
-        View footer = LayoutInflater.from(getContext()).inflate(R.layout.layout_footer, view, false);
+    private void setFooterView() {
+        View footer = LayoutInflater.from(getContext()).inflate(R.layout.layout_footer, null);
         mAdapter.setFooterView(footer);
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -166,13 +232,78 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_search:
+                DialogManager.getInstance().showProgressDialog(getContext());
+                mPage = 0;
+                isLastPage = false;
+                mRequest.setKeyword(mKeyword.getText().toString());
+                lawList = loadData();
+                DialogManager.getInstance().dissMissProgressDialog();
+                mAdapter.setNewData(lawList);
+                mAdapter.setLight(true,mRequest);
+                mAdapter.notifyDataSetChanged();
+                break;
+            case R.id.layout_keyworldtype:
+                View keyworldView = DialogManager.getInstance().showPopupWindow(getContext(), mKeywordType, R.layout.layout_spinner);
+                mKeywordTypeSpinner = (ListView) keyworldView.findViewById(R.id.lv_spinner);
+                List<String> list = new ArrayList();
+                list.add("标题");
+                list.add("内容");
+                SpinnerAdapter adapter = new SpinnerAdapter(list, getContext());
+                mKeywordTypeSpinner.setAdapter(adapter);
+                mKeywordTypeSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (position == 0) {
+                            mRequest.setKeywordType("标题");
+                        }
+                        if (position == 1) {
+                            mRequest.setKeywordType("内容");
+                        }
+                        mKeywordTypeTV.setText(mRequest.getKeywordType());
+                        DialogManager.getInstance().dissMissPopupWindow();
+                    }
+                });
+                break;
         }
     }
 
 
     @Override
-    public void onItemClick(View view, Object data) {
-        LawItem item = (LawItem) data;
+    public void onTabSelected(TabLayout.Tab tab) {
+        LogGloble.d("Tab", "onTabSlected===");
+        if (TextUtils.isEmpty(tab.getText())) {
+            mRequest.setLevel("");
+            return;
+        }
+        if (tab.getText().toString().equals("全部")) {
+            mRequest.setLevel("");
+        } else {
+            mRequest.setLevel(tab.getText().toString());
+        }
+        isLastPage = false;
+        mPage = 0;
+        lawList = loadData();
+        //数据重新加载完成后，提示数据发生改变，并且设置现在不在刷新
+        mAdapter.setNewData(lawList);
+        mAdapter.notifyDataSetChanged();
+        mAdapter.setEnableLoadMore(true);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        LogGloble.d("Tab", "onTabUnselected===");
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        LogGloble.d("Tab", "onTabReselected===");
+    }
+
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        LawItem item = (LawItem) adapter.getItem(position);
         LogGloble.d("MainFragment", item.getFile_path() + "");
         if (TextUtils.isEmpty(item.getFile_path())) {
             ToastUtil.getInstance().toastInCenter(getContext(), "该文件不存在！");
@@ -187,23 +318,5 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
             intent.putExtra("URL", item.getFile_path());
             startActivity(intent);
         }
-
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        LogGloble.d("Tab", "onTabSlected===");
-        if (tab.getText().equals("全部")) {
-        }
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-        LogGloble.d("Tab", "onTabUnselected===");
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-        LogGloble.d("Tab", "onTabReselected===");
     }
 }

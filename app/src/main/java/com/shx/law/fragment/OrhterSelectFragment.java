@@ -13,17 +13,14 @@ import com.shx.law.R;
 import com.shx.law.adapter.LoopViewPagerAdapter;
 import com.shx.law.base.LayoutValue;
 import com.shx.law.base.ViewPagerScheduler;
-import com.shx.law.message.EventMessage;
 import com.shx.law.view.ViewPageWithIndicator;
 
-import org.greenrobot.eventbus.EventBus;
-
 /**
- * 三司查询Fragment
+ * 其他查询Fragment
  * Created by 邵鸿轩 on 2016/12/1.
  */
 
-public class SelectFragment extends Fragment implements View.OnClickListener {
+public class OrhterSelectFragment extends Fragment implements View.OnClickListener {
     private ViewPageWithIndicator mLoopView;
     private ImageView[] imageViews;
     private LoopViewPagerAdapter loopViewPagerAdapter;
@@ -33,7 +30,7 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_select, null);
+        View view = inflater.inflate(R.layout.fragment_ortherselect, null);
         initView(view);
         return view;
     }
@@ -56,8 +53,7 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
 
     private void initView(View view) {
         setHeaderView(view);
-        view.findViewById(R.id.layout_chemicals).setOnClickListener(this);
-        view.findViewById(R.id.layout_fireworks).setOnClickListener(this);
+//        view.findViewById(R.id.tv_container).setOnClickListener(this);
     }
 
     private void setHeaderView(View view) {
@@ -104,20 +100,12 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.layout_chemicals:
-                EventMessage messageChemicals = new EventMessage();
-                messageChemicals.setFrom("SelectFragment");
-                messageChemicals.setSearchType("三司");
-                messageChemicals.setSelectMenu("危化品");
-                EventBus.getDefault().postSticky(messageChemicals);
-                break;
-            case R.id.layout_fireworks:
-                EventMessage messageFireworks = new EventMessage();
-                messageFireworks.setFrom("SelectFragment");
-                messageFireworks.setSelectMenu("烟花爆竹");
-                messageFireworks.setSearchType("三司");
-                EventBus.getDefault().postSticky(messageFireworks);
-                break;
+//            case R.id.tv_container:
+//                EventMessage message = new EventMessage();
+//                message.setFrom("SelectFragment");
+//                message.setSearchType("矿山");
+//                EventBus.getDefault().postSticky(message);
+//                break;
         }
     }
 

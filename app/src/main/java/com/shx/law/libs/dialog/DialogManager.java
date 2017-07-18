@@ -3,12 +3,15 @@ package com.shx.law.libs.dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.PopupWindow;
 
 import com.shx.law.R;
 import com.shx.law.base.LayoutValue;
@@ -27,6 +30,11 @@ public class DialogManager {
      * 通信框框实体
      */
     private CustomDialog mProgressDialog;
+    /**
+     * pup弹框
+     */
+    private PopupWindow mPopupWindow;
+    private View mEmptyVIew;
 
     private DialogManager() {
     }
@@ -54,10 +62,6 @@ public class DialogManager {
         }
 
     }
-
-
-
-
 
 
     /**
@@ -94,8 +98,6 @@ public class DialogManager {
         showDialog();
 
     }
-
-
 
 
     /**
@@ -163,6 +165,30 @@ public class DialogManager {
     }
 
     /**
+     * 显示一个空view
+     * @param view
+     */
+    public View showEmptyView(View view) {
+//        View view=Vie
+    return null;
+    }
+
+    /**
+     * 描述:隐藏通信框
+     */
+    public void dissEmptyView() {
+        try {
+            if (mProgressDialog != null) {
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 通讯提示框
      */
     public CustomDialog createProgressDialog(final Context con) {
@@ -191,7 +217,43 @@ public class DialogManager {
         return dlg;
     }
 
+    public View showPopupWindow(Context context, View view, int layoutId) {
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(context).inflate(
+                layoutId, null);
+        mPopupWindow= new PopupWindow(contentView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setTouchInterceptor(new View.OnTouchListener() {
 
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                Log.i("mengdd", "onTouch : ");
+
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+        mPopupWindow.setBackgroundDrawable(context.getResources().getDrawable(
+                R.drawable.shape_divder));
+
+        // 设置好参数之后再show
+        mPopupWindow.showAsDropDown(view);
+        ViewGroup.LayoutParams lp =  contentView.getLayoutParams();
+        lp.width=view.getWidth();
+        contentView.setLayoutParams(lp);
+        return contentView;
+    }
+    public void dissMissPopupWindow(){
+        if(mPopupWindow!=null){
+            mPopupWindow.dismiss();
+        }
+    }
     public CustomDialog getmCustomDialog() {
         return mCustomDialog;
     }

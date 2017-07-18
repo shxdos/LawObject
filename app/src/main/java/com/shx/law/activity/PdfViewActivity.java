@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
@@ -29,12 +30,18 @@ public class PdfViewActivity extends BaseActivity implements OnPageChangeListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_view);
+        getTopbar().setTitle("详细内容");
+        getTopbar().setLeftImageListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         mView = (PDFView) findViewById(pdfView);
         mView.setFitsSystemWindows(true);
         mView.setMinZoom(1.0f);
         mView.setMidZoom(1.5f);
         mView.setMaxZoom(2f);
-
         mUrl = getIntent().getStringExtra("URL");
         int index = mUrl.lastIndexOf("/");
         String fileName = mUrl.substring(index);

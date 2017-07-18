@@ -7,7 +7,7 @@ package com.shx.law.message;
 public class EventMessage {
     private String from;
     private String to;
-    private int selectMenu;
+    private String selectMenu;
     private String tabItem;
     private String searchType;
 
@@ -27,11 +27,11 @@ public class EventMessage {
         this.to = to;
     }
 
-    public int getSelectMenu() {
+    public String getSelectMenu() {
         return selectMenu;
     }
 
-    public void setSelectMenu(int selectMenu) {
+    public void setSelectMenu(String selectMenu) {
         this.selectMenu = selectMenu;
     }
 

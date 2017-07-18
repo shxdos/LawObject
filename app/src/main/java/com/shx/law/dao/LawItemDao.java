@@ -25,11 +25,11 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Law_name = new Property(1, String.class, "law_name", false, "LAW_NAME");
         public final static Property Issue_no = new Property(2, String.class, "issue_no", false, "ISSUE_NO");
-        public final static Property Major = new Property(3, String.class, "major", false, "MAJOR");
+        public final static Property Level = new Property(3, String.class, "level", false, "LEVEL");
         public final static Property Type_name = new Property(4, String.class, "type_name", false, "TYPE_NAME");
         public final static Property Type_code = new Property(5, String.class, "type_code", false, "TYPE_CODE");
         public final static Property File_path = new Property(6, String.class, "file_path", false, "FILE_PATH");
-        public final static Property Status = new Property(7, Integer.class, "status", false, "STATUS");
+        public final static Property Status = new Property(7, String.class, "status", false, "STATUS");
         public final static Property Create_time = new Property(8, java.util.Date.class, "create_time", false, "CREATE_TIME");
         public final static Property Update_time = new Property(9, String.class, "update_time", false, "UPDATE_TIME");
         public final static Property Description = new Property(10, String.class, "description", false, "DESCRIPTION");
@@ -51,11 +51,11 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"LAW_NAME\" TEXT," + // 1: law_name
                 "\"ISSUE_NO\" TEXT," + // 2: issue_no
-                "\"MAJOR\" TEXT," + // 3: major
+                "\"LEVEL\" TEXT," + // 3: level
                 "\"TYPE_NAME\" TEXT," + // 4: type_name
                 "\"TYPE_CODE\" TEXT," + // 5: type_code
                 "\"FILE_PATH\" TEXT," + // 6: file_path
-                "\"STATUS\" INTEGER," + // 7: status
+                "\"STATUS\" TEXT," + // 7: status
                 "\"CREATE_TIME\" INTEGER," + // 8: create_time
                 "\"UPDATE_TIME\" TEXT," + // 9: update_time
                 "\"DESCRIPTION\" TEXT);"); // 10: description
@@ -86,9 +86,9 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
             stmt.bindString(3, issue_no);
         }
  
-        String major = entity.getMajor();
-        if (major != null) {
-            stmt.bindString(4, major);
+        String level = entity.getLevel();
+        if (level != null) {
+            stmt.bindString(4, level);
         }
  
         String type_name = entity.getType_name();
@@ -106,9 +106,9 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
             stmt.bindString(7, file_path);
         }
  
-        Integer status = entity.getStatus();
+        String status = entity.getStatus();
         if (status != null) {
-            stmt.bindLong(8, status);
+            stmt.bindString(8, status);
         }
  
         java.util.Date create_time = entity.getCreate_time();
@@ -146,9 +146,9 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
             stmt.bindString(3, issue_no);
         }
  
-        String major = entity.getMajor();
-        if (major != null) {
-            stmt.bindString(4, major);
+        String level = entity.getLevel();
+        if (level != null) {
+            stmt.bindString(4, level);
         }
  
         String type_name = entity.getType_name();
@@ -166,9 +166,9 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
             stmt.bindString(7, file_path);
         }
  
-        Integer status = entity.getStatus();
+        String status = entity.getStatus();
         if (status != null) {
-            stmt.bindLong(8, status);
+            stmt.bindString(8, status);
         }
  
         java.util.Date create_time = entity.getCreate_time();
@@ -198,11 +198,11 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // law_name
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // issue_no
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // major
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // level
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // type_name
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // type_code
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // file_path
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // status
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // status
             cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)), // create_time
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // update_time
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // description
@@ -215,11 +215,11 @@ public class LawItemDao extends AbstractDao<LawItem, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setLaw_name(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setIssue_no(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setMajor(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setLevel(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setType_name(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setType_code(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setFile_path(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setStatus(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setStatus(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setCreate_time(cursor.isNull(offset + 8) ? null : new java.util.Date(cursor.getLong(offset + 8)));
         entity.setUpdate_time(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setDescription(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));

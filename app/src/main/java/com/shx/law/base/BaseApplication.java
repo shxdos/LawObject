@@ -1,6 +1,8 @@
 package com.shx.law.base;
 
 import android.app.Application;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
@@ -51,6 +53,17 @@ public class BaseApplication extends Application {
                 + LayoutValue.SCREEN_HEIGHT);
         initDatabass();
         init();
+
+    }
+    public static String getApplicationName(){
+        try {
+            PackageManager packageManager = instance.getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo( instance.getPackageName(), 0);
+            return (String) packageManager.getApplicationLabel(applicationInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     public static BaseApplication getContext(){
         return instance;

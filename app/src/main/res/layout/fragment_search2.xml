@@ -110,12 +110,13 @@
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
+        <ListView
             android:id="@+id/rv_laws"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            ></android.support.v7.widget.RecyclerView>
+            android:layout_marginTop="1dp"
+            ></ListView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

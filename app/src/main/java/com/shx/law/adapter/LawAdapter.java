@@ -2,6 +2,8 @@ package com.shx.law.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.shx.law.R;
 import com.shx.law.base.OnRecyclerViewItemClickListener;
 import com.shx.law.dao.LawItem;
+import com.shx.law.dao.LawRequest;
 
 import java.util.List;
 
@@ -27,6 +30,8 @@ public class LawAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     private View mHeaderView;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnItemClickListener=null;
+    private LawRequest mLawRequest;
+    private boolean isLight=false;//是否需要高亮
     //构造函数    
     public LawAdapter(List<LawItem> list, Context context){
         this.mDatas = list;
@@ -50,6 +55,15 @@ public class LawAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     }
     public void setmOnItemClickListener(OnRecyclerViewItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
+    }
+
+    /**
+     * 设置文字高亮
+     * @param lawRequest
+     */
+    public void setLight(LawRequest lawRequest){
+        mLawRequest=lawRequest;
+        isLight=true;
     }
     public void setmDatas(List<LawItem> mDatas) {
         this.mDatas = mDatas;
@@ -92,9 +106,28 @@ public class LawAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了                
 //                ((ListHolder) holder).tv.setText(mDatas.get(position-1));
                 LawItem lawItem = mDatas.get(position);
-                ((ListHolder) holder).name.setText(lawItem.getLaw_name());
-//                ((ListHolder) holder).desc.setText(lawItem.getDescription());
-                ((ListHolder) holder).desc.setText("(1979年7月1日第五届全国人民代表大会第二次会议通过，1997年3月14日第八届全国人民代表大会第五次会议修订");
+                //是否需要部分文字高亮
+                if(isLight){
+                    if(mLawRequest!=null){
+                        if(TextUtils.isEmpty(mLawRequest.getKeyword())){
+                            return;
+                        }
+                        if(mLawRequest.getKeywordType().equals("标题")){
+                            //标题高亮
+                            lawItem.setLaw_name(lawItem.getLaw_name().replace(mLawRequest.getKeyword(),"<font color='#FF0000'>"+mLawRequest.getKeyword()+"</font>"));
+
+                        }else{
+                            //内容高亮
+                            lawItem.setDescription(lawItem.getDescription().replace(mLawRequest.getKeyword(),"<font color='#FF0000'>"+mLawRequest.getKeyword()+"</font>"));
+                        }
+                        ((ListHolder) holder).name.setText(Html.fromHtml(lawItem.getLaw_name()));
+                        ((ListHolder) holder).desc.setText(Html.fromHtml(TextUtils.isEmpty(lawItem.getDescription())?"暂无摘要":lawItem.getDescription()));
+                    }
+
+                }else{
+                    ((ListHolder) holder).name.setText(lawItem.getLaw_name());
+                    ((ListHolder) holder).desc.setText(TextUtils.isEmpty(lawItem.getDescription())?"暂无摘要":lawItem.getDescription());
+                }
                 ((ListHolder) holder).layoutItem.setTag(lawItem);
                 ((ListHolder) holder).layoutItem.setOnClickListener(this);
                 return;            

@@ -10,5 +10,6 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/textsize_16"
         android:layout_marginLeft="10dp"
+        android:visibility="gone"
         android:text="已经到底了"/>
 </LinearLayout>

@@ -8,4 +8,5 @@ public class SystemConfig {
      * 打印日志的开关,生产版本时改为false
      */
     public static boolean LOGFLAG = true;
+    public static String appName="三司";
 }

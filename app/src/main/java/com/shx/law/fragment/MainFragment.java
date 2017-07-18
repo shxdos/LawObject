@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.shx.law.R;
+import com.shx.law.activity.PdfViewActivity;
+import com.shx.law.activity.WebActivity;
 import com.shx.law.adapter.LawAdapter;
 import com.shx.law.adapter.LoopViewPagerAdapter;
 import com.shx.law.base.EndlessRecyclerOnScrollListener;
@@ -23,15 +25,13 @@ import com.shx.law.base.LayoutValue;
 import com.shx.law.base.OnRecyclerViewItemClickListener;
 import com.shx.law.base.ViewPagerScheduler;
 import com.shx.law.common.LogGloble;
+import com.shx.law.common.SystemConfig;
 import com.shx.law.dao.LawItem;
 import com.shx.law.dao.MyLawItemDao;
 import com.shx.law.libs.dialog.ToastUtil;
 import com.shx.law.view.ViewPageWithIndicator;
 
 import java.util.List;
-
-import com.shx.law.activity.PdfViewActivity;
-import com.shx.law.activity.WebActivity;
 
 /**
  * 首页的Fragment
@@ -44,7 +44,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
     private LoopViewPagerAdapter loopViewPagerAdapter;
     private ViewPagerScheduler vps;
     private RecyclerView mRecyclerView;
-    private int res[] = new int[]{R.drawable.banner4};
+    private int res[] = new int[]{R.drawable.img_banner_placeholder};
     private LawAdapter mAdapter;
     private List<LawItem> lawList;
     private SwipeRefreshLayout mRefreshLayout;
@@ -64,7 +64,12 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
 
     private List<LawItem> loadData(int page, int size) {
         MyLawItemDao dao = new MyLawItemDao();
-        return dao.selectByPage(page, size);
+        if(SystemConfig.appName.equals("三司")){
+            return dao.selctLawItems("三司",page, size);
+        }else{
+            return dao.selctLawItems(null,page, size);
+        }
+
     }
 
     private void loadMoreData() {
@@ -96,13 +101,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
     private void initView(View view) {
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_refresh);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_laws);
-        //RecyclerView三部曲+LayoutManager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
-
-//        mRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL, DeviceUtils.dp2Px(getContext(),5),
-//                R.drawable.shape_divder));
         mAdapter = new LawAdapter(lawList, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setmOnItemClickListener(this);
@@ -159,7 +160,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
             ImageView imageView = new ImageView(getActivity());
             imageViews[i] = imageView;
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            Glide.with(getActivity()).load(res[i]).placeholder(getResources().getDrawable(R.drawable.banner4)).into(imageView);
+            Glide.with(getActivity()).load(res[i]).placeholder(getResources().getDrawable(R.drawable.img_banner_placeholder)).into(imageView);
         }
 
         loopViewPagerAdapter = new LoopViewPagerAdapter(

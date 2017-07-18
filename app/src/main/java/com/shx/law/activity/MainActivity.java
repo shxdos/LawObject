@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         EventBus.getDefault().register(this);
     }
     private void initView() {
+        getTopbar().setLeftImageVisibility(View.GONE);
         mMainFragment = new MainFragment();
         mSearchFragment=new SearchFragment();
         mSelectFragment=new SelectFragment();

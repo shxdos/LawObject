@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextGray"
+        android:layout_marginTop="5dp"
         android:textSize="@dimen/textsize_14" />
     <View
         android:layout_width="match_parent"
