@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
     defaultConfig {
-        applicationId "com.shx.law"
+        applicationId "com.shx.law.beta"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
@@ -41,4 +41,5 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.github.arcadefire:nice-spinner:1.2'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
 }
