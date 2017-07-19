@@ -44,7 +44,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
     private LoopViewPagerAdapter loopViewPagerAdapter;
     private ViewPagerScheduler vps;
     private RecyclerView mRecyclerView;
-    private int res[] = new int[]{R.drawable.img_banner_placeholder};
+    private int res[] = new int[]{R.drawable.img_banner};
     private LawAdapter mAdapter;
     private List<LawItem> lawList;
     private SwipeRefreshLayout mRefreshLayout;
@@ -160,7 +160,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
             ImageView imageView = new ImageView(getActivity());
             imageViews[i] = imageView;
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            Glide.with(getActivity()).load(res[i]).placeholder(getResources().getDrawable(R.drawable.img_banner_placeholder)).into(imageView);
+            Glide.with(getActivity()).load(res[i]).placeholder(getResources().getDrawable(R.drawable.img_banner)).into(imageView);
         }
 
         loopViewPagerAdapter = new LoopViewPagerAdapter(

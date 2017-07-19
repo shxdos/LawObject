@@ -34,8 +34,8 @@
 
                     <TextView
                         style="@style/style_mainmenu"
-                        android:drawableTop="@drawable/ic_container"
-                        android:text="危险化学品" />
+                        android:drawableTop="@drawable/ic_wh"
+                        android:text="危化品" />
                 </LinearLayout>
                 <View android:layout_width="1dp"
                     android:layout_height="match_parent"
@@ -49,7 +49,7 @@
 
                     <TextView
                         style="@style/style_mainmenu"
-                        android:drawableTop="@drawable/ic_container"
+                        android:drawableTop="@drawable/ic_yh"
                         android:text="烟花爆竹" />
                 </LinearLayout>
             </TableRow>

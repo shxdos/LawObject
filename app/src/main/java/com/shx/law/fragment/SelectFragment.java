@@ -28,7 +28,7 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
     private ImageView[] imageViews;
     private LoopViewPagerAdapter loopViewPagerAdapter;
     private ViewPagerScheduler vps;
-    private int res[] = new int[]{R.drawable.img_banner_placeholder};
+    private int res[] = new int[]{R.drawable.img_banner};
 
     @Nullable
     @Override
@@ -82,7 +82,7 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
             ImageView imageView = new ImageView(getActivity());
             imageViews[i] = imageView;
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            Glide.with(getActivity()).load(res[i]).placeholder(getResources().getDrawable(R.drawable.img_banner_placeholder)).into(imageView);
+            Glide.with(getActivity()).load(res[i]).placeholder(getResources().getDrawable(R.drawable.img_banner)).into(imageView);
         }
 
         loopViewPagerAdapter = new LoopViewPagerAdapter(

@@ -105,7 +105,7 @@ public class LawAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             if(holder instanceof ListHolder) {                
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了                
 //                ((ListHolder) holder).tv.setText(mDatas.get(position-1));
-                LawItem lawItem = mDatas.get(position);
+                LawItem lawItem = mDatas.get(position-1);
                 //是否需要部分文字高亮
                 if(isLight){
                     if(mLawRequest!=null){
