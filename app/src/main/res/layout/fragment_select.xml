@@ -10,48 +10,121 @@
         android:layout_height="160dp"
         android:visibility="visible"></com.shx.law.view.ViewPageWithIndicator>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-        <TableLayout
-            android:id="@+id/tl_table"
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:background="@drawable/img_select_divder" />
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite">
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="#84ccc9"></View>
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/tl_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="10dp">
 
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@drawable/shape_divder"
-                android:orientation="horizontal"
-                android:showDividers="middle">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/shape_divder"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <LinearLayout
+                android:id="@+id/layout_chemicals"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="130dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/img_wh" />
 
                 <LinearLayout
-                    android:id="@+id/layout_chemicals"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         style="@style/style_mainmenu"
-                        android:drawableTop="@drawable/ic_wh"
-                        android:text="危化品" />
-                </LinearLayout>
-                <View android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorLine"></View>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:id="@+id/layout_fireworks"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                        android:gravity="left"
+                        android:text="化学危险品监管"
+                        android:textColor="@color/colorTextBlack"
+                        android:textSize="@dimen/textsize_16" />
 
                     <TextView
                         style="@style/style_mainmenu"
-                        android:drawableTop="@drawable/ic_yh"
-                        android:text="烟花爆竹" />
+                        android:gravity="left"
+                        android:text="包含：化工（含石油化工）、医药、非药品类易制毒化学品"
+                        android:textColor="@color/colorTextGray"
+                        android:textSize="@dimen/textsize_14" />
                 </LinearLayout>
-            </TableRow>
-        </TableLayout>
+            </LinearLayout>
+        </TableRow>
+        <View android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorLine"></View>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/shape_divder"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <LinearLayout
+
+                android:id="@+id/layout_fireworks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="130dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="70dp"
+                    android:background="@drawable/img_yh" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/style_mainmenu"
+                        android:gravity="left"
+                        android:text="烟花爆竹"
+                        android:textColor="@color/colorTextBlack"
+                        android:textSize="@dimen/textsize_16" />
+
+                    <TextView
+                        style="@style/style_mainmenu"
+                        android:gravity="left"
+                        android:textColor="@color/colorTextGray"
+                        android:textSize="@dimen/textsize_16" />
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

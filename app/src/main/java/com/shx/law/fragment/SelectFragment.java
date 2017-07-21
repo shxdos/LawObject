@@ -28,8 +28,7 @@ public class SelectFragment extends Fragment implements View.OnClickListener {
     private ImageView[] imageViews;
     private LoopViewPagerAdapter loopViewPagerAdapter;
     private ViewPagerScheduler vps;
-    private int res[] = new int[]{R.drawable.img_banner};
-
+    private int res[] = new int[]{R.drawable.img_banner1,R.drawable.img_banner2,R.drawable.img_banner3};
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

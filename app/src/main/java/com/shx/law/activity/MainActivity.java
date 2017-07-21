@@ -120,11 +120,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         switch (index) {
             case 0:
                 transaction.replace(R.id.content, mMainFragment);
-                getTopbar().setTitle("首页");
+                getTopbar().setTitle("三司法规标准查询");
                 break;
             case 1:
                 transaction.replace(R.id.content, mSelectFragment);
-                getTopbar().setTitle("查询系统");
+                getTopbar().setTitle("法规库");
                 break;
             case 2:
                 transaction.replace(R.id.content, mSearchFragment);
@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             default:
                 transaction.replace(R.id.content, mMainFragment);
-                getTopbar().setTitle("首页");
+                getTopbar().setTitle("三司法规标准查询");
                 break;
         }
         transaction.commit();

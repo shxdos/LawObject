@@ -44,7 +44,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, OnRe
     private LoopViewPagerAdapter loopViewPagerAdapter;
     private ViewPagerScheduler vps;
     private RecyclerView mRecyclerView;
-    private int res[] = new int[]{R.drawable.img_banner};
+    private int res[] = new int[]{R.drawable.img_banner1,R.drawable.img_banner2,R.drawable.img_banner3};
     private LawAdapter mAdapter;
     private List<LawItem> lawList;
     private SwipeRefreshLayout mRefreshLayout;

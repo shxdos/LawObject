@@ -42,7 +42,6 @@ public class WebActivity extends BaseActivity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDisplayZoomControls(false); //隐藏webview缩放按钮
-        webView.setInitialScale(100);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setSupportZoom(true);  //支持缩放
