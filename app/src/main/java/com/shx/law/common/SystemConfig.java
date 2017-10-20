@@ -9,4 +9,5 @@ public class SystemConfig {
      */
     public static boolean LOGFLAG = true;
     public static String appName="三司";
+    public static String URL="http://60.210.40.196:8080/laws/%s.html";
 }

@@ -104,6 +104,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ba
         if (message.getFrom().equals("SelectFragment")) {
             mRequest.setTypeCode(message.getSelectMenu());
             mRequest.setTypeName("三司");
+//            int index = StringUtils.indexOfArr(mTabTitle,message.getSelectMenu());
+//            mTabLayout.getTabAt(index).select();
+//            recomputeTlOffset1(index);
             lawList = loadData();
             if (mAdapter != null) {
                 mAdapter.addData(lawList);
@@ -112,7 +115,36 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ba
             return;
         }
     }
-
+    /**
+     * 重新计算需要滚动的距离
+     *
+     * @param index 选择的tab的下标
+     */
+    private void recomputeTlOffset1(int index) {
+//        if (mTabLayout.getTabAt(index) != null) mTabLayout.getTabAt(index).select();
+        final int width = (int) (getTablayoutOffsetWidth(index) * getContext().getResources().getDisplayMetrics().density);
+        mTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mTabLayout.smoothScrollTo(width, 0);
+            }
+        });
+    }
+//重中之重是这个计算偏移量的方法，各位看官看好了。
+    /**
+     * 根据字符个数计算偏移量
+     *
+     * @param index 选中tab的下标
+     * @return 需要移动的长度
+     */
+    private int getTablayoutOffsetWidth(int index) {
+        String str = "";
+        for (int i = 0; i < index; i++) {
+            //取出直到index的tab的文字，计算长度
+            str += mTabTitle[i];
+        }
+        return str.length() * 14 + index * 12;
+    }
     @Override
     public void onStop() {
         super.onStop();
@@ -203,9 +235,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ba
             }
         }, mRecyclerView);
         mAdapter.setOnItemClickListener(this);
-        TextView textView = new TextView(getContext());
-        textView.setText("我是空格");
-        mRefreshLayout.addView(textView);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             public void onRefresh() {
                 isLastPage = false;

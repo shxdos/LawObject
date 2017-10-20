@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 getTopbar().setTitle("三司法规标准查询");
                 break;
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
 }

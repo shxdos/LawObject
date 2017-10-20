@@ -10,12 +10,19 @@ import android.webkit.WebViewClient;
 
 import com.shx.law.R;
 import com.shx.law.base.BaseActivity;
+import com.shx.law.common.LogGloble;
+import com.shx.law.common.SystemConfig;
 import com.shx.law.libs.dialog.DialogManager;
 
 
 public class WebActivity extends BaseActivity {
     private WebView webView;
     private String url;
+    /**
+     * 用来控制字体大小
+     */
+    int fontSize = 1;
+    private int urlIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +36,11 @@ public class WebActivity extends BaseActivity {
         });
         webView = (WebView) findViewById(R.id.webView);
         url = getIntent().getStringExtra("URL");
+        if(url.startsWith("0")){
+            url=url.substring(url.indexOf("0")+1);
+        }
+        url=String.format(SystemConfig.URL,url);
+        LogGloble.d("url",url+"==");
         init();
     }
 
@@ -45,8 +57,21 @@ public class WebActivity extends BaseActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setSupportZoom(true);  //支持缩放
-        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         settings.setBuiltInZoomControls(true); //设置支持缩放
+        if (settings.getTextSize() == WebSettings.TextSize.SMALLEST) {
+            fontSize = 50*2;
+        } else if (settings.getTextSize() == WebSettings.TextSize.SMALLER) {
+            fontSize = 75*2;
+        } else if (settings.getTextSize() == WebSettings.TextSize.NORMAL) {
+            fontSize = 100*2;
+        } else if (settings.getTextSize() == WebSettings.TextSize.LARGER) {
+            fontSize = 150*2;
+        } else if (settings.getTextSize() == WebSettings.TextSize.LARGEST) {
+            fontSize = 200*2;
+        }
+        settings.setTextZoom(fontSize);
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
